@@ -7,7 +7,7 @@ SEXFAVOR_BOY = NUMFAVOR_1 = 0
 SEXFAVOR_GIRL = NUMFAVOR_2 = 1
 SEXFAVOR_SPEC = 2
 
-class Choose:
+class Core:
     def __init__(self,path:str):
         self.names = []
         self.namel = []
@@ -35,13 +35,9 @@ class Choose:
                 self.namel.append(i)
         except (UnicodeDecodeError,IndexError):
             os.remove(path)
-            if not os.path.exists("names"):
-                os.makedirs("names")
             with open(path,"w",encoding="utf-8") as f:
                 f.write("name,sex,no\n某人,0,1")
         except FileNotFoundError:
-            if not os.path.exists("names"):
-                os.makedirs("names")
             with open(path,"w",encoding="utf-8") as f:
                 f.write("name,sex,no\n某人,0,1")
 
