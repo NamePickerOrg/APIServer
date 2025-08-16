@@ -49,10 +49,13 @@ class Core:
             if self.sexFavor == SEXFAVOR_ALL and self.numFavor == NUMFAVOR_BOTH:
                 break
             else:
-                if ((int(self.names[i]["sex"]) != self.sexFavor)
-                or (int(self.names[i]["no"])%2 == 0 and self.numFavor==NUMFAVOR_1) 
-                or (int(self.names[i]["no"])%2 == 1 and self.numFavor==NUMFAVOR_2)):
-                    del self.namel[i]
+                try:
+                    if ((int(self.names[i]["sex"]) != self.sexFavor)
+                    or (int(self.names[i]["no"])%2 == 0 and self.numFavor==NUMFAVOR_1) 
+                    or (int(self.names[i]["no"])%2 == 1 and self.numFavor==NUMFAVOR_2)):
+                        del self.namel[i]
+                except:
+                    pass
 
     def set_sex_favor(self,target:int) -> None:
         self.sexFavor = target
@@ -66,17 +69,20 @@ class Core:
         resi = []
         res = []
         for i in range(num):
-            if not allow_repeat and not self.namel==[]:
-                ans = random.choice(self.namel)
+            try:
+                if not allow_repeat and not self.namel==[]:
+                    ans = random.choice(self.namel)
+                    resi.append(self.namel[self.namel.index(ans)])
+                    del self.namel[self.namel.index(ans)]
+                    continue
+                elif not allow_repeat and self.namel==[]:
+                    self.load_favor()
+                    ans = random.choice(self.namel)
+                else:
+                    ans = random.choice(self.namel)
                 resi.append(self.namel[self.namel.index(ans)])
-                del self.namel[self.namel.index(ans)]
-                continue
-            elif not allow_repeat and self.namel==[]:
-                self.load_favor()
-                ans = random.choice(self.namel)
-            else:
-                ans = random.choice(self.namel)
-            resi.append(self.namel[self.namel.index(ans)])
+            except IndexError:
+                return ["nothing"]
 
         for i in resi:
             res.append(self.names[i])
